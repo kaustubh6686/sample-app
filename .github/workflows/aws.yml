@@ -33,7 +33,7 @@ jobs:
     - name: Generate temp key
       run: |
         cd ~
-        ssh-keygen -t rsa -b 4096 -N "" -C "temporary-key" -f ec2temp
+        ssh-keygen -t rsa -b 4096 -N "" -C "temporary-key" -f ec2temp 
         pwd
         ls
     
