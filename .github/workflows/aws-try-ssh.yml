@@ -18,15 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-    - name: Print commit SHA
-      run: echo ${GITHUB_SHA}
-        
+    steps:      
     - name: Connect to instance
       uses: fifsky/ssh-action@master
       with:
         command: |
           cd ~
+          echo ${GITHUB_SHA}
           sudo sh pull-from-git.sh ${GITHUB_SHA}
         host: ${{ secrets.HOST }}
         user: ubuntu
