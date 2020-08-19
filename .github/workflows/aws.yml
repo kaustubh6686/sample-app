@@ -46,4 +46,3 @@ jobs:
       run: |
         cd ~
         ssh -i "ec2temp" -t -T ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com
-        hostname
