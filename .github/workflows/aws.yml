@@ -33,17 +33,13 @@ jobs:
     - name: Generate temp key
       run: |
         cd ~
-        ssh-keygen -t ed25519 -N "" -C "temporary-key" -f ec2temp
+        ssh-keygen -t rsa -b 4096 -N "" -C "temporary-key" -f ec2temp
         pwd
         ls
     
     - name: Add temp key to instance
       run: |
-        pwd
-        ls
         cd ~
-        pwd
-        ls
         aws ec2-instance-connect send-ssh-public-key --instance-id i-0b6b2ace184082f59 --instance-os-user ubuntu --availability-zone us-east-2 --ssh-public-key file://ec2temp.pub
 
     - name: Connect to instance
