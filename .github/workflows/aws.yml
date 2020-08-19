@@ -43,8 +43,6 @@ jobs:
         aws ec2-instance-connect send-ssh-public-key --instance-id i-068f876f69206b12e --instance-os-user ubuntu --availability-zone us-west-2c --ssh-public-key file://ec2temp.pub
 
     - name: Connect to instance
-      run: ssh -i "/home/runner/ec2temp" ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com
-
-    - name: Check hostname
-      run: hostname
-
+      run: |
+        ssh -i "/home/runner/ec2temp" ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com /bin/bash <<EOT
+        hostname
