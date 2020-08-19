@@ -23,8 +23,9 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          sudo su
           cd /var/www/html
           git pull
         host: ${{ secrets.HOST }}
-        user: root
+        user: ubuntu
         key: ${{ secrets.PRIVATE_KEY}}
