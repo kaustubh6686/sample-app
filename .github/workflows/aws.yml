@@ -34,5 +34,5 @@ jobs:
       run: |
         cd ~
         ssh-keygen -t ed25519 -N "" -C "temporary-keys" -f ec2-temp
-        ll
+        ls
 
