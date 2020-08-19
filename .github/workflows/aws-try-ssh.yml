@@ -25,7 +25,7 @@ jobs:
         command: |
           cd ~
           echo "$GITHUB_SHA"
-          sudo sh pull-from-git.sh "$GITHUB_SHA"
+          sudo sh pull-from-git.sh "${{ env.GITHUB_SHA }}"
         host: ${{ secrets.HOST }}
         user: ubuntu
         key: ${{ secrets.PRIVATE_KEY}}
