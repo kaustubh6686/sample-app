@@ -38,7 +38,7 @@ jobs:
         ls
     
     - name: Add temp key to instance
-      run: aws ec2-instance-connect send-ssh-public-key --instance-id i-0b6b2ace184082f59 --instance-os-user ubuntu --availability-zone us-east-2 --ssh-public-key file://home/runner/ec2temp.pub
+      run: aws ec2-instance-connect send-ssh-public-key --instance-id i-0b6b2ace184082f59 --instance-os-user ubuntu --availability-zone us-east-2 --ssh-public-key file://ec2temp.pub
 
     - name: Connect to instance
       run: ssh -i "/home/runner/ec2-temp" ubuntu@ec2-3-131-86-247.us-east-2.compute.amazonaws.com
