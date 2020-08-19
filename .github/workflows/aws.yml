@@ -30,3 +30,9 @@ jobs:
     - name: Check AWS CLI version
       run: aws --version
 
+    - name: Generate temp keys
+      run: |
+        cd /root/.ssh/
+        ssh-keygen -t ed25519 -N "" -C "temporary-keys" -f ec2-temp
+        ll
+
