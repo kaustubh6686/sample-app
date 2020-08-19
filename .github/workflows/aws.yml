@@ -44,4 +44,5 @@ jobs:
 
     - name: Connect to instance
       run: |
-        ssh -i -t "/home/runner/ec2temp" ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com; echo hostname;
+        cd ~
+        ssh -i -t "ec2temp" ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com; echo hostname;
