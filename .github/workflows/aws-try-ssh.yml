@@ -19,6 +19,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+    - name: Print commit SHA
+      run: echo ${GITHUB_SHA}
+        
     - name: Connect to instance
       uses: fifsky/ssh-action@master
       with:
