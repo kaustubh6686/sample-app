@@ -44,6 +44,6 @@ jobs:
 
     - name: Connect to instance
       run: |
-        echo $(( env.GITHUB_SHA }}
+        echo ${{ env.GITHUB_SHA }}
         cd ~
         ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com "sudo sh /home/ubuntu/pull-from-git.sh ${{ env.GITHUB_SHA }}"
