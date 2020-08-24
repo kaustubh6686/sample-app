@@ -1,0 +1,57 @@
+# This is a basic workflow to help you get started with Actions
+
+name: AWS
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Check AWS CLI version
+      run: aws --version
+
+    - name: Generate temp key
+      run: |
+        cd ~
+        ssh-keygen -t rsa -b 4096 -N "" -C "temporary-key" -f ec2temp 
+        pwd
+        ls
+    
+    - name: Add temp key to instance
+      run: |
+        cd ~
+        aws ec2-instance-connect send-ssh-public-key --instance-id i-068f876f69206b12e --instance-os-user ubuntu --availability-zone us-west-2c --ssh-public-key file://ec2temp.pub
+
+    - name: Connect to instance
+      run: |
+        echo "$GITHUB_SHA"
+        cd ~
+        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com "sudo sh /home/ubuntu/pull-from-git.sh $GITHUB_SHA"
