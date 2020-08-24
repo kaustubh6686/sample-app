@@ -45,6 +45,6 @@ jobs:
 
     - name: Connect to instance
       run: |
-        echo "Tags: ${{ github.event.inputs.tags }}"
+        echo "Tags: tag/${{ github.event.inputs.tags }}"
         cd ~
-        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com "sudo sh /home/ubuntu/pull-from-git.sh $GITHUB_SHA"
+        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com "sudo sh /home/ubuntu/pull-from-git.sh tag/${{ github.event.inputs.tags }} "
