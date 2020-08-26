@@ -54,4 +54,4 @@ jobs:
       run: |
         echo "Tag: tags/${{ github.event.inputs.tag }}"
         cd ~
-        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ${{ env.AWS_INSTANCE_USER }}@${{ env.AWS_INSTANCE_HOST }} "sudo su; cd /var/www/html/; git checkout .; git fetch; git checkout tags/${{ github.event.inputs.tag }}"
+        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ${{ env.AWS_INSTANCE_USER }}@${{ env.AWS_INSTANCE_HOST }} "cd /var/www/html/; sudo git checkout .; sudo git fetch; sudo git checkout tags/${{ github.event.inputs.tag }}"
