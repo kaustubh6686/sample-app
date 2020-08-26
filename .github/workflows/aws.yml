@@ -40,7 +40,7 @@ jobs:
     - name: Check AWS CLI version
       run: |
         aws --version
-        echo ${{ env[env.SERVICE.'_REGION'] }}
+        echo ${{ env[env.REGION] }}
 
     - name: Generate temp key
       run: |
