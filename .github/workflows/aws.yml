@@ -4,6 +4,10 @@ name: AWS
 
 env:
   AWS_REGION: 'us-west-2'
+  AWS_INSTANCE_ID: 'i-068f876f69206b12e'
+  AWS_INSTANCE_HOST: 'ec2-54-70-207-86.us-west-2.compute.amazonaws.com' 
+  AWS_INSTANCE_AVAIBILITY_ZONE: 'us-west-2c' 
+  AWS_INSTANCE_USER: 'ubuntu'  
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -44,10 +48,10 @@ jobs:
     - name: Add temp key to instance
       run: |
         cd ~
-        aws ec2-instance-connect send-ssh-public-key --instance-id i-068f876f69206b12e --instance-os-user ubuntu --availability-zone us-west-2c --ssh-public-key file://ec2temp.pub
+        aws ec2-instance-connect send-ssh-public-key --instance-id ${{ env.AWS_INSTANCE_ID }} --instance-os-user ${{ env.AWS_INSTANCE_USER }} --availability-zone ${{ env.AWS_INSTANCE_AVAIBILITY_ZONE }} --ssh-public-key file://ec2temp.pub
 
     - name: Connect to instance
       run: |
         echo "Tag: tags/${{ github.event.inputs.tag }}"
         cd ~
-        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ubuntu@ec2-54-70-207-86.us-west-2.compute.amazonaws.com "sudo sh /home/ubuntu/pull-from-git.sh tags/${{ github.event.inputs.tag }} "
+        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T ${{ env.AWS_INSTANCE_USER }}@${{ env.AWS_INSTANCE_HOST }} "sudo sh /home/ubuntu/pull-from-git.sh tags/${{ github.event.inputs.tag }} "
