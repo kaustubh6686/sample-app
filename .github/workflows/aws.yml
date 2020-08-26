@@ -3,6 +3,8 @@
 name: AWS
 
 env:
+  SERVICE: 'AWS'
+  REGION: ${{env.SERVIVE}}_REGION   
   AWS_REGION: 'us-west-2'
   AWS_INSTANCE_ID: 'i-068f876f69206b12e'
   AWS_INSTANCE_HOST: 'ec2-54-70-207-86.us-west-2.compute.amazonaws.com' 
@@ -33,10 +35,12 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ env.[env.SERVICE.'_REGION'] }}
 
     - name: Check AWS CLI version
-      run: aws --version
+      run: |
+        aws --version
+        echo ${{ env.[env.SERVICE.'_REGION'] }}
 
     - name: Generate temp key
       run: |
