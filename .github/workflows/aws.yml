@@ -4,7 +4,6 @@ name: AWS
 
 env:
   SERVICE: 'AWS'
-  REGION: ${{ env.SERVICE }}_REGION   
   AWS_REGION: 'us-west-2'
   AWS_INSTANCE_ID: 'i-068f876f69206b12e'
   AWS_INSTANCE_HOST: 'ec2-54-70-207-86.us-west-2.compute.amazonaws.com' 
@@ -29,13 +28,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
+    - name: Set Environment Variables
+      run: |
+        echo "::set-env name=REGION::${{env.SERVICE}}_REGION"
+        
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env[env.SERVICE.'_REGION'] }}
+        aws-region: ${{ env.AWS_REGION }}
 
     - name: Check AWS CLI version
       run: |
