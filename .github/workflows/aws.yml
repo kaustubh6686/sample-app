@@ -44,7 +44,7 @@ jobs:
         aws --version
         echo ${{ env[env.REGION] }}
 
-    - name: Generate temp key
+    - name: Use AWS SSM
       run: |
         aws ssm send-command \
           --instance-ids "i-0ac9fcaa2acbaf1f9" \
