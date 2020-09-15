@@ -46,4 +46,27 @@ jobs:
 
     - name: Generate temp key
       run: |
-        aws ssm send-command --instance-ids "i-0ac9fcaa2acbaf1f9" --document-name "AWS-RunShellScript" --parameters workingDirectory="/home/ec2-user",commands=["touch test3.txt","touch test4.txt"]
+        cd ~
+        ssh-keygen -t rsa -b 4096 -N "" -C "temporary-key" -f ec2temp 
+        pwd
+        ls
+    
+    - name: Add temp key to instance
+      run: |
+        cd ~
+        aws ec2-instance-connect send-ssh-public-key \
+          --instance-id ${{ env.AWS_INSTANCE_ID }} \
+          --instance-os-user ${{ env.AWS_INSTANCE_USER }} \
+          --availability-zone ${{ env.AWS_INSTANCE_AVAIBILITY_ZONE }} \
+          --ssh-public-key file://ec2temp.pub
+
+    - name: Connect to instance
+      run: |
+        echo "Tag: tags/${{ github.event.inputs.tag }}"
+        cd ~
+        ssh -i "ec2temp" -o StrictHostKeyChecking=no -T \
+          ${{ env.AWS_INSTANCE_USER }}@${{ env.AWS_INSTANCE_HOST }} \
+            "cd /var/www/html/; \
+            sudo git checkout .; \
+            sudo git fetch; \
+            sudo git checkout tags/${{ github.event.inputs.tag }}"
